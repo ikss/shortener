@@ -25,25 +25,25 @@ public class UrlDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public UrlInfo getByUrl(String shortUrl) {
-        List<UrlInfo> results = jdbcTemplate.query(GET_BY_SHORT_URL, urlInfoMapper, shortUrl);
-        return DataAccessUtils.uniqueResult(results);
-    }
-
-    public UrlInfo getByUrlAndAccountId(String fullUrl, String account) {
-        List<UrlInfo> results = jdbcTemplate.query(GET_BY_FULL_URL_AND_ACCOUNT, urlInfoMapper, fullUrl, account);
-        return DataAccessUtils.uniqueResult(results);
-    }
-
     public void create(UrlInfo info) {
         jdbcTemplate.update(CREATE_URL, info.getShortUrl(), info.getFullUrl(), info.getRedirectType(), info.getAccountId());
     }
 
-    public void incrementRedirectCount(UrlInfo info) {
-        jdbcTemplate.update(INCREMENT_COUNT, info.getShortUrl(), info.getAccountId());
-    }
-
     public List<UrlInfo> getByAccountId(String accountId) {
         return jdbcTemplate.query(GET_BY_ACCOUNT_ID, urlInfoMapper, accountId);
+    }
+
+    public UrlInfo getByFullUrlAndAccountId(String fullUrl, String account) {
+        List<UrlInfo> results = jdbcTemplate.query(GET_BY_FULL_URL_AND_ACCOUNT, urlInfoMapper, fullUrl, account);
+        return DataAccessUtils.uniqueResult(results);
+    }
+
+    public UrlInfo getByShortUrl(String shortUrl) {
+        List<UrlInfo> results = jdbcTemplate.query(GET_BY_SHORT_URL, urlInfoMapper, shortUrl);
+        return DataAccessUtils.uniqueResult(results);
+    }
+
+    public void incrementRedirectCount(UrlInfo info) {
+        jdbcTemplate.update(INCREMENT_COUNT, info.getShortUrl(), info.getAccountId());
     }
 }

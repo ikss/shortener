@@ -21,17 +21,17 @@ public class AccountDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public AccountInfo getAccountInfo(String accountId) {
+    public void create(AccountInfo accountInfo) {
+        jdbcTemplate.update(CREATE_ACCOUNT, accountInfo.getId(), accountInfo.getPassword());
+    }
+
+    public AccountInfo getByAccountId(String accountId) {
         List<AccountInfo> results = jdbcTemplate.query(GET_ACCOUNT, accountInfoMapper, accountId);
         return DataAccessUtils.uniqueResult(results);
     }
 
-    public boolean accountExists(String accountId) {
+    public boolean isAccountExists(String accountId) {
         Integer count = jdbcTemplate.queryForObject(ACCOUNT_EXISTS, Integer.class, accountId);
         return count != null && count != 0;
-    }
-
-    public void createAccount(AccountInfo accountInfo) {
-        jdbcTemplate.update(CREATE_ACCOUNT, accountInfo.getId(), accountInfo.getPassword());
     }
 }

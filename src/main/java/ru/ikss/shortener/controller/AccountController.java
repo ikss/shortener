@@ -24,8 +24,8 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @PostMapping(value = EntryPoints.ACCOUNT, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
+    @PostMapping(value = EntryPoints.ACCOUNT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createAccount(@Valid @RequestBody AccountRequest accountRequest) {
         String password = accountService.createAccount(accountRequest.getId());
         AccountResponse response = new AccountResponse();

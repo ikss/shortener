@@ -12,8 +12,8 @@ import ru.ikss.shortener.model.ErrorResponse;
 @ControllerAdvice
 public class CustomExceptionHandler {
 
-    @ExceptionHandler(KnownException.class)
     @ResponseBody
+    @ExceptionHandler(KnownException.class)
     public ResponseEntity knownExceptionHandler(HttpServletRequest request, KnownException exception) {
         return new ResponseEntity<>(new ErrorResponse(exception.getMessage(), exception.getStatus().getReasonPhrase(), request.getRequestURI()), exception.getStatus());
     }

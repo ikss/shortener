@@ -27,7 +27,7 @@ public class AccountService implements UserDetailsService {
     }
 
     public UserDetails loadUserByUsername(String accountId) throws UsernameNotFoundException {
-        AccountInfo accountInfo = accountDao.getAccountInfo(accountId);
+        AccountInfo accountInfo = accountDao.getByAccountId(accountId);
         if (accountInfo == null) {
             throw new UsernameNotFoundException("Account with id " + accountId + " not found");
         }
@@ -35,12 +35,12 @@ public class AccountService implements UserDetailsService {
     }
 
     public String createAccount(String accountId) {
-        if (accountDao.accountExists(accountId)) {
+        if (accountDao.isAccountExists(accountId)) {
             return null;
         }
         String password = RandomStringUtils.randomAlphanumeric(8);
         AccountInfo accountInfo = new AccountInfo(accountId, passwordEncoder.encode(password));
-        accountDao.createAccount(accountInfo);
+        accountDao.create(accountInfo);
         return password;
     }
 }

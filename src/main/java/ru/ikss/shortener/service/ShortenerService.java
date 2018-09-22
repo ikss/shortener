@@ -24,7 +24,7 @@ public class ShortenerService {
 
     public String create(String url, int redirectType, String account) {
         String sanitizedUrl = sanitize(url);
-        UrlInfo info = urlDao.getByUrlAndAccountId(sanitizedUrl, account);
+        UrlInfo info = urlDao.getByFullUrlAndAccountId(sanitizedUrl, account);
         if (info == null) {
             info = new UrlInfo(shorten(sanitizedUrl), sanitizedUrl, redirectType, account);
             urlDao.create(info);
@@ -35,7 +35,7 @@ public class ShortenerService {
     }
 
     public UrlInfo getUrlInfo(String shortUrl) {
-        return urlDao.getByUrl(shortUrl);
+        return urlDao.getByShortUrl(shortUrl);
     }
 
     private String sanitize(String url) {

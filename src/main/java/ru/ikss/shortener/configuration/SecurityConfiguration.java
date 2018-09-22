@@ -19,6 +19,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService);
+    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
             .authorizeRequests()
@@ -28,10 +33,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/statistic/*").fullyAuthenticated();
 
         http.httpBasic().and().userDetailsService(userDetailsService);
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
     }
 }
