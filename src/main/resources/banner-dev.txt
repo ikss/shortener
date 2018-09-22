@@ -1,0 +1,10 @@
+${AnsiColor.GREEN}                                                                                                                                ${AnsiColor.MAGENTA}     _|                                _|
+${AnsiColor.GREEN}  _|    _|  _|_|_|    _|             _|_|_|  _|                              _|                                                 ${AnsiColor.MAGENTA}   _|    _|_|_|                          _|
+${AnsiColor.GREEN}  _|    _|  _|    _|  _|           _|        _|_|_|      _|_|    _|  _|_|  _|_|_|_|    _|_|    _|_|_|      _|_|    _|  _|_|     ${AnsiColor.MAGENTA}   _|    _|    _|    _|_|    _|      _|  _|
+${AnsiColor.GREEN}  _|    _|  _|_|_|    _|             _|_|    _|    _|  _|    _|  _|_|        _|      _|_|_|_|  _|    _|  _|_|_|_|  _|_|         ${AnsiColor.MAGENTA}   _|    _|    _|  _|_|_|_|  _|      _|  _|
+${AnsiColor.GREEN}  _|    _|  _|    _|  _|                 _|  _|    _|  _|    _|  _|          _|      _|        _|    _|  _|        _|           ${AnsiColor.MAGENTA}   _|    _|    _|  _|          _|  _|    _|
+${AnsiColor.GREEN}    _|_|    _|    _|  _|_|_|_|     _|_|_|    _|    _|    _|_|    _|            _|_|    _|_|_|  _|    _|    _|_|_|  _|           ${AnsiColor.MAGENTA}   _|    _|_|_|      _|_|_|      _|      _|
+${AnsiColor.GREEN}                                                                                                                                ${AnsiColor.MAGENTA}     _|                                _|
+
+${AnsiColor.BRIGHT_CYAN}VERSION: ${version}
+${AnsiColor.DEFAULT}
