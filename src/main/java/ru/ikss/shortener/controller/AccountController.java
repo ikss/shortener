@@ -37,6 +37,6 @@ public class AccountController {
         response.setSuccess(true);
         response.setPassword(password);
         response.setDescription("Your account opened");
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }
