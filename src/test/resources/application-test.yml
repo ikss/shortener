@@ -1,3 +1,5 @@
 spring:
   profiles: test
   datasource.data: classpath:test/accounts.sql
+
+server.redirectUri: http://localhost

@@ -2,6 +2,7 @@ package ru.ikss.shortener.controller;
 
 import java.util.Map;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,13 @@ public class StatisticsControllerTest extends AbstractControllerTest {
     @DisplayName("Statistic returns only with accountId")
     public void statisticOnlyWithAccountIdTest() throws Exception {
         getStatisticAndCheck("/statistic/", status().isNotFound());
+    }
+
+    @Test
+    @WithMockUser(username = TEST_ACCOUNT, password = TEST_PASSWORD)
+    @DisplayName("Test on unknown accountId")
+    public void unknownAccountIdTest() throws Exception {
+        getStatisticAndCheck("/statistic/" + RandomStringUtils.randomAlphanumeric(6), status().isBadRequest());
     }
 
     @Test

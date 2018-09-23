@@ -43,4 +43,8 @@ public class AccountService implements UserDetailsService {
         accountDao.create(accountInfo);
         return password;
     }
+
+    public boolean isExists(String id) {
+        return accountDao.isExists(id);
+    }
 }

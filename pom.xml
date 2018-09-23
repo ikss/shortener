@@ -6,7 +6,7 @@
 
     <groupId>ru.ikss</groupId>
     <artifactId>shortener</artifactId>
-    <version>0.0.3.RELEASE</version>
+    <version>0.0.4.RELEASE</version>
     <packaging>jar</packaging>
 
     <name>shortener</name>

@@ -9,7 +9,7 @@ mvn clean package
 After build finished you can run service with following commands:
 ```
 cd target/
-java -jar shortener-0.0.3.RELEASE.jar
+java -jar shortener-0.0.4.RELEASE.jar
 ```
 With default settings service responds on port 8088 with http protocol
 
