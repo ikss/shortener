@@ -1,14 +1,16 @@
 CREATE TABLE accounts (
-    id VARCHAR PRIMARY KEY,
+    id VARCHAR NOT NULL PRIMARY KEY,
     password VARCHAR NOT NULL
 );
 
+CREATE SEQUENCE urls_sequence START WITH 1;
+
 CREATE TABLE urls (
-    short_url VARCHAR NOT NULL,
+    id BIGINT PRIMARY KEY,
     full_url VARCHAR NOT NULL,
     redirect_type INTEGER NOT NULL,
     account_id VARCHAR NOT NULL,
     redirect_count INTEGER NOT NULL DEFAULT 0,
-    PRIMARY KEY (short_url, account_id),
+    UNIQUE KEY (full_url, account_id),
     FOREIGN KEY (account_id) REFERENCES accounts (id)
 );

@@ -11,22 +11,26 @@ import ru.ikss.shortener.model.UrlInfo;
 
 @Component
 public class UrlDao {
-    private static final String GET_BY_SHORT_URL = "SELECT short_url, full_url, redirect_type, account_id, redirect_count FROM urls WHERE short_url = ?";
-    private static final String GET_BY_FULL_URL_AND_ACCOUNT =
-        "SELECT short_url, full_url, redirect_type, account_id, redirect_count FROM urls WHERE full_url = ? AND account_id = ?";
-    private static final String GET_BY_ACCOUNT_ID = "SELECT short_url, full_url, redirect_type, account_id, redirect_count FROM urls WHERE account_id = ?";
-    private static final String CREATE_URL = "INSERT INTO urls (short_url, full_url, redirect_type, account_id) VALUES (?,?,?,?)";
-    private static final String INCREMENT_COUNT = "UPDATE urls SET redirect_count = redirect_count + 1 WHERE short_url = ? AND account_id = ?";
+    private static final String GET_NEXT_ID = "SELECT NEXTVAL('urls_sequence')";
+    private static final String GET_BY_ID = "SELECT id, full_url, redirect_type, account_id, redirect_count FROM urls WHERE id = ?";
+    private static final String GET_BY_FULL_URL_AND_ACCOUNT = "SELECT id, full_url, redirect_type, account_id, redirect_count FROM urls WHERE full_url = ? AND account_id = ?";
+    private static final String GET_BY_ACCOUNT_ID = "SELECT id, full_url, redirect_type, account_id, redirect_count FROM urls WHERE account_id = ?";
+    private static final String CREATE_URL = "INSERT INTO urls (id, full_url, redirect_type, account_id) VALUES (?,?,?,?)";
+    private static final String INCREMENT_COUNT = "UPDATE urls SET redirect_count = redirect_count + 1 WHERE id = ?";
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<UrlInfo> urlInfoMapper = (rs, rowNum) ->
-        new UrlInfo(rs.getString("short_url"), rs.getString("full_url"), rs.getInt("redirect_type"), rs.getString("account_id"), rs.getInt("redirect_count"));
+        new UrlInfo(rs.getInt("id"), rs.getString("full_url"), rs.getInt("redirect_type"), rs.getString("account_id"), rs.getInt("redirect_count"));
 
     public UrlDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     public void create(UrlInfo info) {
-        jdbcTemplate.update(CREATE_URL, info.getShortUrl(), info.getFullUrl(), info.getRedirectType(), info.getAccountId());
+        jdbcTemplate.update(CREATE_URL, info.getId(), info.getFullUrl(), info.getRedirectType(), info.getAccountId());
+    }
+
+    public Long getNextId() {
+        return jdbcTemplate.queryForObject(GET_NEXT_ID, Long.class);
     }
 
     public List<UrlInfo> getByAccountId(String accountId) {
@@ -38,12 +42,12 @@ public class UrlDao {
         return DataAccessUtils.uniqueResult(results);
     }
 
-    public UrlInfo getByShortUrl(String shortUrl) {
-        List<UrlInfo> results = jdbcTemplate.query(GET_BY_SHORT_URL, urlInfoMapper, shortUrl);
+    public UrlInfo getById(long id) {
+        List<UrlInfo> results = jdbcTemplate.query(GET_BY_ID, urlInfoMapper, id);
         return DataAccessUtils.uniqueResult(results);
     }
 
-    public void incrementRedirectCount(UrlInfo info) {
-        jdbcTemplate.update(INCREMENT_COUNT, info.getShortUrl(), info.getAccountId());
+    public void incrementRedirectCount(long id) {
+        jdbcTemplate.update(INCREMENT_COUNT, id);
     }
 }

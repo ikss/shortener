@@ -1,30 +1,30 @@
 package ru.ikss.shortener.model;
 
 public class UrlInfo {
-    private String shortUrl;
+    private long id;
     private String fullUrl;
     private String accountId;
     private int redirectType;
     private int redirectCount;
 
-    public UrlInfo(String shortUrl, String fullUrl, int redirectType, String accountId) {
-        this(shortUrl, fullUrl, redirectType, accountId, 0);
+    public UrlInfo(long id, String fullUrl, int redirectType, String accountId) {
+        this(id, fullUrl, redirectType, accountId, 0);
     }
 
-    public UrlInfo(String shortUrl, String fullUrl, int redirectType, String accountId, int redirectCount) {
-        this.shortUrl = shortUrl;
+    public UrlInfo(long id, String fullUrl, int redirectType, String accountId, int redirectCount) {
+        this.id = id;
         this.fullUrl = fullUrl;
         this.redirectType = redirectType;
         this.accountId = accountId;
         this.redirectCount = redirectCount;
     }
 
-    public String getShortUrl() {
-        return shortUrl;
+    public long getId() {
+        return id;
     }
 
-    public UrlInfo setShortUrl(String shortUrl) {
-        this.shortUrl = shortUrl;
+    public UrlInfo setShortUrl(long id) {
+        this.id = id;
         return this;
     }
 

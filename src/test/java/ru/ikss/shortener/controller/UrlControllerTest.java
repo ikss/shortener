@@ -1,24 +1,14 @@
-package ru.ikss.shortener;
+package ru.ikss.shortener.controller;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ru.ikss.shortener.model.UrlRequest;
 import ru.ikss.shortener.model.UrlResponse;
@@ -28,32 +18,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DisplayName("URL controller tests")
-@SpringBootTest
-@AutoConfigureMockMvc
-@ActiveProfiles("default, development, test")
-@ExtendWith(SpringExtension.class)
-public class UrlControllerTest {
-    private static final String TEST_ACCOUNT = "test_account";
-    private static final String TEST_PASSWORD = "test_password";
-    private static final String DEFAULT_HTTPS_URL = "https://google.com";
-    private static final String DEFAULT_HTTP_URL = "http://google.com";
-    private static final String DEFAULT_URL_WITHOUT_SCHEMA = "google.com";
-    @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    private ObjectMapper objectMapper;
-    @Value("${server.redirectUri}")
-    private String redirectUri;
+public class UrlControllerTest extends AbstractControllerTest {
 
     @Test
     @DisplayName("Register url with unknown account")
     public void registerUrlWithUnknownAccountTest() throws Exception {
-        mockMvc.perform(
-            MockMvcRequestBuilders
-                .post("/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"url\":\"" + DEFAULT_HTTPS_URL + "\"}")
-        ).andExpect(status().isUnauthorized());
+        registerUrlAndCheck(DEFAULT_HTTPS_URL, status().isUnauthorized());
     }
 
     @Test
@@ -61,13 +31,7 @@ public class UrlControllerTest {
     @WithMockUser(username = TEST_ACCOUNT, password = TEST_PASSWORD)
     @DisplayName("Register url with test account and default status")
     public void registerUrlTest() throws Exception {
-        MockHttpServletResponse response = mockMvc.perform(
-            MockMvcRequestBuilders
-                .post("/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"url\":\"" + DEFAULT_HTTPS_URL + "\"}")
-        ).andExpect(status().isCreated())
-            .andReturn().getResponse();
+        MockHttpServletResponse response = registerUrl(DEFAULT_HTTPS_URL);
         UrlResponse url = objectMapper.readValue(response.getContentAsString(), UrlResponse.class);
         String shortUrl = url.getShortUrl();
         assertNotNull(shortUrl, "Short url not null");
@@ -102,12 +66,7 @@ public class UrlControllerTest {
     @WithMockUser(username = TEST_ACCOUNT, password = TEST_PASSWORD)
     @DisplayName("Register duplicated url with same status")
     public void registerDuplicatedUrlWithSameStatus() throws Exception {
-        mockMvc.perform(
-            MockMvcRequestBuilders
-                .post("/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"url\":\"" + DEFAULT_HTTPS_URL + "\"}")
-        ).andExpect(status().isCreated());
+        registerUrl(DEFAULT_HTTPS_URL);
         mockMvc.perform(
             MockMvcRequestBuilders
                 .post("/register")
@@ -116,24 +75,24 @@ public class UrlControllerTest {
         ).andExpect(status().isCreated());
     }
 
-
     @Test
     @Transactional
     @WithMockUser(username = TEST_ACCOUNT, password = TEST_PASSWORD)
     @DisplayName("Register url without schema")
     public void registerUrlWithoutSchemaTest() throws Exception {
-        MockHttpServletResponse response = mockMvc.perform(
-            MockMvcRequestBuilders
-                .post("/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"url\":\"" + DEFAULT_URL_WITHOUT_SCHEMA + "\"}")
-        ).andExpect(status().isCreated())
-            .andReturn().getResponse();
+        MockHttpServletResponse response = registerUrl(DEFAULT_URL_WITHOUT_SCHEMA);
         UrlResponse url = objectMapper.readValue(response.getContentAsString(), UrlResponse.class);
-        String shortUrl = url.getShortUrl();
-        assertNotNull(shortUrl, "Short url not null");
-        mockMvc.perform(MockMvcRequestBuilders.get(shortUrl))
+        assertNotNull(url.getShortUrl(), "Short url not null");
+        mockMvc.perform(MockMvcRequestBuilders.get(url.getShortUrl()))
             .andExpect(status().isFound())
             .andExpect(header().string(HttpHeaders.LOCATION, DEFAULT_HTTP_URL));
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser(username = TEST_ACCOUNT, password = TEST_PASSWORD)
+    @DisplayName("Register illegal url")
+    public void registerInvalidUrlTest() throws Exception {
+        registerUrlAndCheck("www..com", status().isBadRequest());
     }
 }

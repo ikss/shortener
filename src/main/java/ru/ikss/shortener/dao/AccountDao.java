@@ -25,13 +25,13 @@ public class AccountDao {
         jdbcTemplate.update(CREATE_ACCOUNT, accountInfo.getId(), accountInfo.getPassword());
     }
 
-    public AccountInfo getByAccountId(String accountId) {
-        List<AccountInfo> results = jdbcTemplate.query(GET_ACCOUNT, accountInfoMapper, accountId);
+    public AccountInfo getById(String id) {
+        List<AccountInfo> results = jdbcTemplate.query(GET_ACCOUNT, accountInfoMapper, id);
         return DataAccessUtils.uniqueResult(results);
     }
 
-    public boolean isAccountExists(String accountId) {
-        Integer count = jdbcTemplate.queryForObject(ACCOUNT_EXISTS, Integer.class, accountId);
+    public boolean isExists(String id) {
+        Integer count = jdbcTemplate.queryForObject(ACCOUNT_EXISTS, Integer.class, id);
         return count != null && count != 0;
     }
 }
