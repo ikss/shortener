@@ -1,0 +1,140 @@
+{
+	"info": {
+		"_postman_id": "1ca932bf-8d9b-44d2-b420-7a0caa27f04a",
+		"name": "Shortener",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create account",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"AccountId\":\"username\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8088/account",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"account"
+					]
+				},
+				"description": "Register new account"
+			},
+			"response": []
+		},
+		{
+			"name": "Register URL",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "username",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "AP0Vz3Sp",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"type": "any"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"url\":\"http://google.ru\",\n\t\"redirectType\":301\n}"
+				},
+				"url": {
+					"raw": "localhost:8088/register",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get statistic",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "username",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "EPUyeLd7",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"type": "any"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"url\":\"google.ru\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8088/statistic/username",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"statistic",
+						"username"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
