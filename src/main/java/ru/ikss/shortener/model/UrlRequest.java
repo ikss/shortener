@@ -20,15 +20,17 @@ public class UrlRequest {
         return url;
     }
 
-    public void setUrl(String url) {
+    public UrlRequest setUrl(String url) {
         this.url = url;
+        return this;
     }
 
     public int getRedirectType() {
         return redirectType;
     }
 
-    public void setRedirectType(int redirectType) {
+    public UrlRequest setRedirectType(int redirectType) {
         this.redirectType = redirectType;
+        return this;
     }
 }

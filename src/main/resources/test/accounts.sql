@@ -1,0 +1,1 @@
+INSERT INTO accounts (id, password) VALUES ('test_account', 'test_password');

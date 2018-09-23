@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,11 +52,9 @@ public class UrlController {
     }
 
     @PostMapping(value = EntryPoints.REGISTER, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity register(@Valid @RequestBody UrlRequest urlRegisterRequest) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String accountName = auth.getName();
-        String shortUrl = shortenerService.create(urlRegisterRequest.getUrl(), urlRegisterRequest.getRedirectType(), accountName);
-        return new ResponseEntity<>(new UrlResponse(redirectUri + shortUrl), HttpStatus.OK);
+    public ResponseEntity register(Authentication authentication, @Valid @RequestBody UrlRequest urlRegisterRequest) {
+        String shortUrl = shortenerService.create(urlRegisterRequest.getUrl(), urlRegisterRequest.getRedirectType(), authentication.getName());
+        return new ResponseEntity<>(new UrlResponse().setShortUrl(redirectUri + shortUrl), HttpStatus.CREATED);
     }
 
     @ResponseBody

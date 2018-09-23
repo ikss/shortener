@@ -6,10 +6,6 @@ public class UrlResponse implements BaseResponse {
     @JsonProperty(value = "ShortUrl")
     private String shortUrl;
 
-    public UrlResponse(String shortUrl) {
-        this.shortUrl = shortUrl;
-    }
-
     public String getShortUrl() {
         return shortUrl;
     }

@@ -9,9 +9,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -26,14 +28,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DisplayName("Account controller tests")
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles("default, development, test")
 @ExtendWith(SpringExtension.class)
 public class AccountControllerTest {
+    private static final String TEST_ACCOUNT = "test_account";
     @Autowired
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
 
     @Test
+    @Transactional
     @DisplayName("Create account with empty body")
     public void createAccountWithEmptyBodyTest() throws Exception {
         mockMvc.perform(
@@ -44,6 +49,7 @@ public class AccountControllerTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("Create account with empty id")
     public void createAccountWithEmptyIdTest() throws Exception {
         mockMvc.perform(
@@ -55,6 +61,7 @@ public class AccountControllerTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("Create account successfully")
     public void successCreateAccountTest() throws Exception {
         String accountId = RandomStringUtils.randomAlphanumeric(10);
@@ -63,8 +70,7 @@ public class AccountControllerTest {
                 .post("/account")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"AccountId\":\"" + accountId + "\"}")
-        )
-            .andExpect(status().isCreated())
+        ).andExpect(status().isCreated())
             .andReturn().getResponse();
         AccountResponse account = objectMapper.readValue(response.getContentAsString(), AccountResponse.class);
         assertTrue(account.isSuccess(), "Account created successfully");
@@ -72,6 +78,7 @@ public class AccountControllerTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("Duplicate account creation")
     public void duplicateCreateAccountTest() throws Exception {
         String accountId = RandomStringUtils.randomAlphanumeric(10);
@@ -80,18 +87,28 @@ public class AccountControllerTest {
                 .post("/account")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"AccountId\":\"" + accountId + "\"}")
-        )
-            .andExpect(status().isCreated());
+        ).andExpect(status().isCreated());
         MockHttpServletResponse response = mockMvc.perform(
             MockMvcRequestBuilders
                 .post("/account")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"AccountId\":\"" + accountId + "\"}")
-        )
-            .andExpect(status().isConflict())
+        ).andExpect(status().isConflict())
             .andReturn().getResponse();
         AccountResponse account = objectMapper.readValue(response.getContentAsString(), AccountResponse.class);
         assertFalse(account.isSuccess(), "Account didn't create");
         assertNull(account.getPassword(), "Password is null");
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("Checks test account exists")
+    public void testAccountExistsTest() throws Exception {
+        mockMvc.perform(
+            MockMvcRequestBuilders
+                .post("/account")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"AccountId\":\"" + TEST_ACCOUNT + "\"}")
+        ).andExpect(status().isConflict());
     }
 }
