@@ -67,12 +67,7 @@ public class UrlControllerTest extends AbstractControllerTest {
     @DisplayName("Register duplicated url with same status")
     public void registerDuplicatedUrlWithSameStatus() throws Exception {
         registerUrl(DEFAULT_HTTPS_URL);
-        mockMvc.perform(
-            MockMvcRequestBuilders
-                .post("/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"url\":\"" + DEFAULT_HTTPS_URL + "\"}")
-        ).andExpect(status().isCreated());
+        registerUrl(DEFAULT_HTTPS_URL);
     }
 
     @Test
