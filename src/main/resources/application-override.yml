@@ -1,6 +1,3 @@
 spring:
   profiles: override
   banner.location: classpath:banner-dev.txt
-
-server:
-  port: 8080

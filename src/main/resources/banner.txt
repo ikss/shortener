@@ -5,6 +5,3 @@ ${AnsiColor.RED}  _|    _|  _|_|_|    _|             _|_|    _|    _|  _|    _| 
 ${AnsiColor.RED}  _|    _|  _|    _|  _|                 _|  _|    _|  _|    _|  _|          _|      _|        _|    _|  _|        _|
 ${AnsiColor.RED}    _|_|    _|    _|  _|_|_|_|     _|_|_|    _|    _|    _|_|    _|            _|_|    _|_|_|  _|    _|    _|_|_|  _|
 ${AnsiColor.RED}
-
-${AnsiColor.BRIGHT_CYAN}VERSION: ${version}
-${AnsiColor.DEFAULT}
