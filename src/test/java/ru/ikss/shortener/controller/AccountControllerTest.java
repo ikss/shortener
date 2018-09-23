@@ -1,16 +1,11 @@
-package ru.ikss.shortener;
+package ru.ikss.shortener.controller;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,11 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DisplayName("Account controller tests")
-@SpringBootTest
-@AutoConfigureMockMvc
-@ActiveProfiles("default, development, test")
-@ExtendWith(SpringExtension.class)
-public class AccountControllerTest {
+public class AccountControllerTest extends AbstractControllerTest {
     private static final String TEST_ACCOUNT = "test_account";
     @Autowired
     private MockMvc mockMvc;
