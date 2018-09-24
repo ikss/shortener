@@ -4,7 +4,7 @@ Service helps to shorten URLs and retrive statistic of usage these short links.
 It requires java 1.8 or higher and compatible with java 10.0.2
 
 ## How to build service
-To build service clone project, go to root project root folder and execute command
+To build service clone project, go to project root folder and execute command
 ```
 mvn clean package
 ```
@@ -12,7 +12,7 @@ mvn clean package
 After build finished you can run service with following commands:
 ```
 cd target/
-java -jar shortener-0.0.4.RELEASE.jar
+java -jar shortener-0.0.5.RELEASE.jar
 ```
 With default settings service responds on port 8088 with http protocol
 
