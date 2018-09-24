@@ -20,4 +20,6 @@ With default settings service responds on port 8088 with http protocol
 You can import postman collection from file *shortener.postman.json*, or use curl.
 With default settings service responds on 8088 port with http protocol.
 
+Notice that requests for register new URLs and get statistic must include basic authentication header with password, received on account creation.
+
 You can see API on the Apiary: https://urlshortener8.docs.apiary.io/#
