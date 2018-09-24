@@ -63,4 +63,15 @@ public class UrlInfo {
         this.redirectCount = redirectCount;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "UrlInfo{" +
+            "id=" + id +
+            ", fullUrl='" + fullUrl + '\'' +
+            ", accountId='" + accountId + '\'' +
+            ", redirectType=" + redirectType +
+            ", redirectCount=" + redirectCount +
+            '}';
+    }
 }

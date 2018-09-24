@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true" scanPeriod="5 seconds">
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <appender name="shortener-service" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/shortener-service.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>logs/shortener-service.%i.log</fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>8</maxIndex>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>5MB</maxFileSize>
+        </triggeringPolicy>
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%15.15t] %-40.40logger{39} : %m%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <logger name="ru.ikss" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</configuration>
