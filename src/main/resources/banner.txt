@@ -5,3 +5,5 @@ ${AnsiColor.RED}  _|    _|  _|_|_|    _|             _|_|    _|    _|  _|    _| 
 ${AnsiColor.RED}  _|    _|  _|    _|  _|                 _|  _|    _|  _|    _|  _|          _|      _|        _|    _|  _|        _|
 ${AnsiColor.RED}    _|_|    _|    _|  _|_|_|_|     _|_|_|    _|    _|    _|_|    _|            _|_|    _|_|_|  _|    _|    _|_|_|  _|
 ${AnsiColor.RED}
+
+${AnsiColor.DEFAULT}
